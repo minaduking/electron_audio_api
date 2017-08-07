@@ -1,0 +1,31 @@
+{
+  "name": "electron_audio_api",
+  "version": "0.0.1",
+  "description": "Audio API for electron",
+  "main": "index.js",
+  "scripts": {
+    "release": "electron-rebuild -v 1.6.11",
+    "xcode_debug": "node-gyp configure -- -f xcode",
+    "vs_debug": "",
+    "vs_clean": "rd /s /q bin build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minaduking/electron_audio_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minaduking/electron_audio_api/issues"
+  },
+  "homepage": "https://github.com/minaduking/electron_audio_api#readme",
+  "dependencies": {
+    "bindings": "^1.3.0",
+    "nan": "^2.6.2"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.6.0"
+  }
+}

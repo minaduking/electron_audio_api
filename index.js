@@ -1,0 +1,1 @@
+module.exports = require('bindings')('electron_audio_api');
