@@ -1,12 +1,16 @@
 dist: precise
 language: node_js
 node_js:
-    - "8.1.4"
+  - "8.1.4"
 sudo: false
+env:
+  - CXX=g++-4.8
 addons:
-    apt:
-        packages:
-            - xvfb
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+packages:
+  - g++-4.8
 install:
-    - npm install
-    - npm run release
+  - npm install
+  - npm run release
