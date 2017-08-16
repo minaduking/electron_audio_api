@@ -6,6 +6,7 @@
   "scripts": {
     "release": "electron-rebuild -v 1.6.11",
     "xcode_debug": "node-gyp configure -- -f xcode",
+    "xcode_clean": "rm -rf bin/ build/",
     "vs_debug": "",
     "vs_clean": "rd /s /q bin build",
     "test": "echo \"Error: no test specified\" && exit 1"

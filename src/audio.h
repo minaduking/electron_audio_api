@@ -1,7 +1,3 @@
-//
-// Created by ryominaduki on 2017/07/31.
-//
-
 #ifndef ELECTRON_AUDIO_API_AUDIO_H
 #define ELECTRON_AUDIO_API_AUDIO_H
 
@@ -16,16 +12,21 @@
 #   endif
 #endif
 
-class Audio {
+using namespace v8;
+
+class Audio: public Nan::ObjectWrap {
 public:
-    Audio();
+    static void Init(Local<Object> exports);
+
+private:
+    explicit Audio();
     ~Audio();
 
-    static AUDIO_SOURCES getInputSources();
-    static AUDIO_SOURCES getOutputSources();
+    static Nan::Persistent<Function> constructor;
+    static void New(const Nan::FunctionCallbackInfo<Value>& info);
+
+    static void getInputSources(const Nan::FunctionCallbackInfo<Value>& info);
+    static void getOutputSources(const Nan::FunctionCallbackInfo<Value>& info);
 };
-
-NAN_METHOD(GetInputAudioSources);
-NAN_METHOD(GetOutputAudioSources);
-
+NAN_METHOD(CreateObject);
 #endif //ELECTRON_AUDIO_API_AUDIO_H

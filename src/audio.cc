@@ -1,14 +1,42 @@
 #include <nan.h>
-#include <iostream>
+#include <stdio.h>
 #include "audio.h"
 
-using v8::Uint8ClampedArray;
-using v8::Local;
+Nan::Persistent<v8::Function> Audio::constructor;
 
 Audio::Audio() {}
 Audio::~Audio() {}
 
-AUDIO_SOURCES Audio::getInputSources() {
+void Audio::Init(v8::Local<v8::Object> exports) {
+  Nan::HandleScope scope;
+
+  // Prepare constructor template
+  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+  tpl->SetClassName(Nan::New("Audio").ToLocalChecked());
+  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+
+  // Prototype
+  Nan::SetPrototypeMethod(tpl, "getInputSources", getInputSources);
+  Nan::SetPrototypeMethod(tpl, "getOutputSources", getOutputSources);
+
+  constructor.Reset(tpl->GetFunction());
+  exports->Set(Nan::New("AudioObject").ToLocalChecked(), tpl->GetFunction());
+}
+
+void Audio::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  if (info.IsConstructCall()) {
+    Audio* obj = new Audio();
+    obj->Wrap(info.This());
+    info.GetReturnValue().Set(info.This());
+  } else {
+    const int argc = 1;
+    v8::Local<v8::Value> argv[argc] = { info[0] };
+    v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
+    info.GetReturnValue().Set(cons->NewInstance(argc, argv));
+  }
+}
+
+void Audio::getInputSources(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     AUDIO_SOURCES audio_sources;
 #ifdef _WIN32
     audio_sources = AudioGetInputDeviceSources();
@@ -19,10 +47,18 @@ AUDIO_SOURCES Audio::getInputSources() {
 #else
 //        audio_sources->audio_source[0].name = "other audio source";
 #endif
-    return audio_sources;
+    v8::Local<v8::Array> array = Nan::New<v8::Array>();
+    size_t size = sizeof(audio_sources.audio_source) / sizeof(audio_sources.audio_source[0]);
+    for(int i=0; i < (int)size; i++){
+        v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+        obj->Set(Nan::New("name").ToLocalChecked(), Nan::New(audio_sources.audio_source[i].name).ToLocalChecked());
+        obj->Set(Nan::New("uid").ToLocalChecked(), Nan::New(audio_sources.audio_source[i].uid).ToLocalChecked());
+        Nan::Set(array, i, obj);
+    }
+    info.GetReturnValue().Set(array);
 }
 
-AUDIO_SOURCES Audio::getOutputSources() {
+void Audio::getOutputSources(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     AUDIO_SOURCES audio_sources;
 #ifdef _WIN32
     audio_sources = AudioGetOutputDeviceSources();
@@ -33,13 +69,13 @@ AUDIO_SOURCES Audio::getOutputSources() {
 #else
 //        audio_sources->audio_source[0].name = "other audio source";
 #endif
-    return audio_sources;
-}
-
-NAN_METHOD(GetInputAudioSources){
-    info.GetReturnValue().Set(Nan::New<AUDIO_SOURCES>(Audio::getInputSources()).ToLocalChecked());
-}
-
-NAN_METHOD(GetOutputAudioSources){
-    info.GetReturnValue().Set(Nan::New(Audio::getOutputSources().audio_source[0].name).ToLocalChecked());
+    v8::Local<v8::Array> array = Nan::New<v8::Array>();
+    size_t size = sizeof(audio_sources.audio_source) / sizeof(audio_sources.audio_source[0]);
+    for(int i=0; i < (int)size; i++){
+        v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+        obj->Set(Nan::New("name").ToLocalChecked(), Nan::New(audio_sources.audio_source[i].name).ToLocalChecked());
+        obj->Set(Nan::New("uid").ToLocalChecked(), Nan::New(audio_sources.audio_source[i].uid).ToLocalChecked());
+        Nan::Set(array, i, obj);
+    }
+    info.GetReturnValue().Set(array);
 }

@@ -5,9 +5,6 @@
             "src/main.cc",
             "src/audio.cc",
         ],
-        "cflags": ["-Wall", "-std=c++11"],
-        "cflags_cc!": ["-fbi-rtti", "-fno-exceptions"],
-        "cflags!": ["-fno-exceptions"],
         "include_dirs": ["<!(node -e \"require('nan')\")"],
         "conditions": [
             [
@@ -21,10 +18,11 @@
                         "lib/win/CAA_audio.cc",
                         "lib/win/CAA_audio_object.cc",
                     ],
-                    "include_dirs": [
-                    ],
-                    "libraries": [
-                    ],
+                    "cflags": ["-Wall", "-std=c++11"],
+                    "cflags_cc!": ["-fbi-rtti", "-fno-exceptions"],
+                    "cflags!": ["-fno-exceptions"],
+                    "include_dirs": [],
+                    "libraries": [],
                     "defineed": [
                         "NTDDI_WIN10"
                     ]
@@ -48,7 +46,7 @@
                     "xcode_settings": {
                         "GCC_ENABLE_CPP_EXCEPTIONS": 'YES',
                         "CLANG_CXX_LIBRARY": 'libc++',
-                        "OTHER_CPLUSPLUSFLAGS": ["-std=c++11","-stdlib=libc++"],
+                        "OTHER_CPLUSPLUSFLAGS": ["-std=c++11","-stdlib=libc++", "-v"],
                         "OTHER_LDFLAGS": ["-stdlib=libc++"],
                         "MACOSX_DEPLOYMENT_TARGET": "10.7"
                     }

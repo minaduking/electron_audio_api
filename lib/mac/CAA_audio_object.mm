@@ -12,7 +12,7 @@ typedef struct{
 } AudioIODeviceProperty;
 
 AUDIO_SOURCES AudioGetInputDeviceSources(){
-    CoreAudioObject *obj = [[CoreAudioObject alloc] init];
+    CAAAudioObject *obj = [[CAAAudioObject alloc] init];
     NSArray* audioDeviceInputList = (__bridge NSArray*)[obj createInputDeviceList];
     [obj release];
     
@@ -30,7 +30,7 @@ AUDIO_SOURCES AudioGetInputDeviceSources(){
 }
 
 AUDIO_SOURCES AudioGetOutputDeviceSources(){
-    CoreAudioObject *obj = [[CoreAudioObject alloc] init];
+    CAAAudioObject *obj = [[CAAAudioObject alloc] init];
     NSArray* audioDeviceOutputList = (__bridge NSArray*)[obj createOutputDeviceList];
     [obj release];
     
