@@ -27,8 +27,6 @@
     "nan": "^2.6.2"
   },
   "devDependencies": {
-    "electron": "^1.6.11",
-    "electron-rebuild": "^1.6.0",
     "tap": "^10.7.2"
   }
 }
