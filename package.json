@@ -1,5 +1,5 @@
 {
-  "name": "electron_audio_api",
+  "name": "electron-audio-api",
   "version": "0.0.1",
   "description": "Audio API for electron",
   "main": "index.js",
